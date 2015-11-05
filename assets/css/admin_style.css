@@ -1,0 +1,108 @@
+.nav-wrapper {
+	/*background: #f50057;*/
+}
+
+.nav-wrapper .brand-logo {
+	font-size: 30px;
+}
+
+#uu {
+	color: #483e52;
+}
+
+nav{
+	height: 100px;
+	padding: 10px;
+	background: #ff1744;
+}
+
+i.fa-pencil, span.tot_price{
+      cursor: pointer;
+      /*color: #312c32;*/
+}
+
+span.tot_price{
+	font-size: 1.5em;
+	color: #000;
+	padding: 3px;
+	border-radius: 3px;
+}
+
+/*span.tot_price:hover{
+	border-radius: 3px;
+	border: 2px solid #ff1744;
+}*/
+
+i.ti-pencil:hover{
+  font-size: 2.5em;
+  color: #c43235;
+}
+
+#add_button .ti-save, #scan .ti-camera{
+  color: #fff;
+  font-size: 2.2em;
+  padding: .3em;
+}
+
+.title{
+	color: #ff1744;
+}
+
+div.title{
+	padding-bottom: 5px;
+}
+
+#add_button{
+  padding: .2em;
+  background: #312c32;
+}
+
+i.ti-crown, .ti-search{
+  font-size: 2.5em;
+  color: #fff;
+  padding: .3em;
+}
+
+#inv, #sale, #products {
+  color: #312c32;
+}
+
+#add_product{
+  background: #fff;
+  padding-bottom: .6em;
+}
+
+.fa-gift{
+	margin: 5px;
+	height: 20px;
+}
+
+.fa-pencil{
+	color: #ff3333;
+}
+
+div[name=prod_name]{
+	font-size: 2em;
+	color: #ff1744;
+}
+
+#cancel_edit:hover{
+	color: #ff1744;
+}
+
+#edit_btn:hover{
+	color: #7cc576;
+}
+
+.btn-floating{
+	color: #3c3c3c;
+}
+
+#scan {
+	background: #ff1744;
+}
+
+
+.input-field input[type=text]:hover + label{
+	color: #000;
+}

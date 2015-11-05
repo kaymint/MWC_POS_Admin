@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+     <!--Import materialize.css-->
+     <link type="text/css" rel="stylesheet" href="assets/css/materialize.min.css"  media="screen,projection"/>
+     <link type="text/css" rel="stylesheet" href="assets/css/admin_style.css"  media="screen,projection"/>
+     <link rel="stylesheet" href="assets/css/font-awesome/css/font-awesome.min.css">
+     <!--Let browser know website is optimized for mobile-->
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+   </head>
+
+   <body>
+     <!--Import jQuery before materialize.js-->
+     <script type="text/javascript" src="assets/js/jquery-2.1.3.min.js"></script>
+     <script type="text/javascript" src="assets/js/materialize.js"></script>
+     <script type="text/javascript" scr="assets/js/admin.js"></script>
+     <script src="cordova.js"></script>
+     
+     <script type="text/javascript">
+      // Function to send ajax request
+       function sendRequest(u){
+         // Send request to server
+         //u a url as a string
+         //async is type of request
+         var obj=$.ajax({url:u,async:false});
+         //Convert the JSON string to object
+         var result=$.parseJSON(obj.responseText);
+         return result; //return object
+       }
+
+       $(document).ready(function()
+       {
+        $(".button-collapse").sideNav();
+         //checkOnline();
+         displayInventoryOnline();
+         $('.modal-trigger').leanModal({
+          dismissible: true, // Modal can be dismissed by clicking outside of the modal
+          opacity: .3, // Opacity of modal background
+          in_duration: 200, // Transition in duration
+          out_duration: 200, // Transition out duration
+          //complete: function() { setPrice(); }
+         });
+       });
+
+       // function checkOnline(){
+       //  if(navigator.onLine){
+       //    //alert("online");
+          
+       //  }else{
+       //    //alert("offline");
+       //    window.localStorage.setItem("last","Ken");
+       //    //$("#test").html(localStorage.getItem("last"));
+       //  }
+       // }
+
+        //sales
+       function displaySalesOnline(){
+        var theUrl="http://cs.ashesi.edu.gh/~csashesi/class2016/kenneth-mensah/pos/controllers/sales-controller.php?cmd=2";
+         var obj=sendRequest(theUrl);   //send request to the above url
+
+         if(obj.result===1){          //check result
+            sales = JSON.stringify(obj);
+            window.localStorage.setItem("salesOff", sales);
+            displaySalesForm(obj);
+         }else{
+           Materialize.toast('Failed', 4000);
+         }
+       }
+
+       function displaySalesOffline(){
+          var obj = JSON.parse(localStorage.getItem("salesOff"));
+          displaySalesForm(obj);
+       }
+
+      function displayInventoryOnline(){
+         var theUrl="http://cs.ashesi.edu.gh/~csashesi/class2016/kenneth-mensah/pos/controllers/products-controller.php?cmd=1";
+         var obj=sendRequest(theUrl);   //send request to the above url
+         if(obj.result===1){          //check result
+           inventory = JSON.stringify(obj);
+           window.localStorage.setItem("inventoryOff", inventory);
+           displayInventoryForm(obj);
+         }else{
+           Materialize.toast('Failed', 4000);
+         }
+      }
+
+      function displayInventoryOffline(){
+        var obj = JSON.parse(localStorage.getItem("inventoryOff"));
+        displayInventoryForm(obj);
+      }
+
+      function displayInventoryForm(obj){
+        //alert(obj);
+        var inventorytable = "";
+        inventorytable += '<ul class="collection">';
+        for(var index in obj.inventory){
+          inventorytable += '<li class="collection-item avatar">';
+         //inventorytable += "<tr id="+obj.inventory[index].product_id+">";
+         inventorytable += '<i class="fa fa-gift circle"></i>';
+         inventorytable += "<div class='title'>"+obj.inventory[index].product_name+"</div>";
+         inventorytable += "<input type=hidden name=id value ="+obj.inventory[index].product_id+" > ";
+         inventorytable += "<div name='price'>GHS <span>"+obj.inventory[index].unit_price+"</span></div>";
+         inventorytable += "<div name='quantity'>Qty: <span>"+obj.inventory[index].quantity+"</span></div>";
+         inventorytable += '<div class="secondary-content modal-trigger col s2" data-target="modal1" onclick=testModal('+obj.inventory[index].product_id+')>';
+         inventorytable +='<i class="fa fa-pencil circle black btn-floating"></i></div>';
+         inventorytable += "</li>";
+       }
+       inventorytable += "</ul>";
+       $("#inventory").html(inventorytable);
+      }
+
+      function displaySalesForm(obj){
+        var inventorytable = "";
+        inventorytable += '<ul class="collection">';
+
+        for(var index in obj.sales){
+           inventorytable += '<li class="collection-item avatar">';
+           inventorytable += '<i class="fa fa-gift circle"></i>';
+           inventorytable += "<div class='title'> Item: "+obj.sales[index].product_name+"</div>";
+           inventorytable += "<div name='price'>Qty Purchased: "+obj.sales[index].quantity_purchased+"</div>";
+           inventorytable += "<div name='price'>Date: "+obj.sales[index].date_purchased+"</div>";
+           inventorytable += '<span class="secondary-content tot_price")> GHS ';
+           inventorytable += obj.sales[index].total_price+'</span>';
+           inventorytable += "</li>";
+         }
+         inventorytable += "</ul>";
+         $("#sales").html(inventorytable);
+      }
+
+      function testModal(id){
+        //alert(id);
+        getProduct(id);
+        $('.modal-trigger').leanModal({
+          dismissible: true, // Modal can be dismissed by clicking outside of the modal
+          opacity: .3, // Opacity of modal background
+          in_duration: 200, // Transition in duration
+          out_duration: 200, // Transition out duration
+        });
+      }
+
+      function getProduct(id){
+        var theUrl="http://cs.ashesi.edu.gh/~csashesi/class2016/kenneth-mensah/pos/controllers/products-controller.php?cmd=6&id="+id;
+        var obj=sendRequest(theUrl);   //send request to the above url
+        if(obj.result===1){
+          setModal(obj);
+        }
+      }
+
+      function setModal(obj){
+        var editForm = "";
+        editForm += '<div class="row">';
+        editForm += '<div class="input-field col s6">';
+        editForm += '<div class="active" name="prod_name">'+obj.product_name+'</div>';
+        editForm += '<input value="'+obj.unit_price+'" id="obj_price" type="text" class="validate">';
+        editForm += '<input type="hidden" value="'+obj.product_id+'" id="obj_id" >';
+        editForm += '</div>';
+        editForm += '</div>';
+        $('#edit_form').html(editForm);
+      }
+
+      function setPrice(){
+        var price = $('#obj_price').val();
+        var id = $('#obj_id').val();
+        if(navigator.onLine){
+          setPriceOnline(id, price);
+        }else{
+          setPriceOffline(id, price);
+        }
+      }
+
+      function setPriceOnline(id, price){
+        var theUrl="http://cs.ashesi.edu.gh/~csashesi/class2016/kenneth-mensah/pos/controllers/products-controller.php?cmd=3&id="+id+"&price="+price;
+        var obj=sendRequest(theUrl);   //send request to the above url
+        if(obj.result===1){
+          Materialize.toast('Price Set Successfully', 2000);
+        }else{
+          Materialize.toast('Could Not Price Set', 2000);
+        }
+      }
+
+      function setPriceOffline(id, price){
+        var setPriceArr = []; 
+        var details = {"id": id,
+                    "price": price};
+
+        if(!window.localStorage.getItem("setPriceArr")){
+          setPriceArr.push(details);
+          window.localStorage.setItem("setPriceArr", JSON.stringify(setPriceArr));
+        }else{
+          setPriceArr = JSON.parse(localStorage.getItem("setPriceArr"));
+          setPriceArr.push(details);
+          window.localStorage.setItem("setPriceArr", JSON.stringify(setPriceArr));
+        }
+        Materialize.toast('Changes Saved Offline', 2000);
+        
+       }
+
+       function syncPrices(){
+        var obj = JSON.parse(localStorage.getItem("setPriceArr"));
+
+        for(i = 0; i < obj.length; i++){
+          id = obj[i].id;
+          price = obj[i].price;
+          if(navigator.onLine){
+            setPriceOnline(id, price);
+            obj.shift();
+          }else{
+            Materialize.toast('Price Sync Incomplete', 2000);
+            window.localStorage.setItem("setPriceArr", JSON.stringify(obj));
+            return;
+          }
+        }
+        if(obj.length == 0)
+          Materialize.toast('Prices Synced', 2000);
+        window.localStorage.setItem("setPriceArr", JSON.stringify(obj));
+       }
+
+       function addProduct(){
+          var id = $("#barcode").val();
+          var name = $("#name").val();
+          var desc = $("#desc").val();
+          var qty = $("#quantity").val();
+          var price = $("#price").val();
+
+          if(navigator.onLine){
+            addProductOnline(id, name, desc, qty, price)
+          }else{
+            addProductOffline(id, name, desc, qty, price)
+          }
+       }
+
+      //add product
+      function addProductOnline(id, name, desc, qty, price){
+        
+        var theUrl = "http://cs.ashesi.edu.gh/~csashesi/class2016/kenneth-mensah/pos/controllers/products-controller.php?cmd=2&id="+id+"&name="+name+"&desc="+desc+"&qty="+qty+"&price="+price;
+        if(navigator.onLine){
+
+          var obj=sendRequest(theUrl);    //send request to the above url
+
+          if(obj.result ===1){
+            resetForm();
+            Materialize.toast('Product Added', 4000);
+          }
+          else{
+            Materialize.toast('Could Not Add', 4000);
+          }
+        }else{
+            Materialize.toast('Offline', 4000);
+        }
+      }
+
+      function addProductOffline(id, name, desc, qty, price){
+        var addProdArr = []; 
+        var details = {"id": id, "name" : name, "desc" : desc, "qty" : qty, 
+                    "price": price};
+
+        if(!window.localStorage.getItem("addProdArr")){
+          addProdArr.push(details);
+          window.localStorage.setItem("addProdArr", JSON.stringify(addProdArr));
+        }else{
+          addProdArr = JSON.parse(localStorage.getItem("addProdArr"));
+          addProdArr.push(details);
+          window.localStorage.setItem("addProdArr", JSON.stringify(addProdArr));
+        }
+        Materialize.toast('Changes Saved Offline', 2000);
+        resetForm();
+      }
+
+      function syncProducts(){
+        var obj = JSON.parse(localStorage.getItem("addProdArr"));
+
+        for(i = 0; i < obj.length; i++){
+          id = obj[i].id;
+          price = obj[i].price;
+          desc = obj[i].desc;
+          qty = obj[i].qty;
+          name = obj[i].name;
+
+          if(navigator.onLine){
+            addProductOnline(id, name, desc, qty, price);
+            obj.shift();
+          }else{
+            Materialize.toast('Product Sync Incomplete', 2000);
+            window.localStorage.setItem("addProdArr", JSON.stringify(obj));
+            return;
+          }
+        }
+        if(obj.length == 0)
+          Materialize.toast('Products Synced', 2000);
+        window.localStorage.setItem("addProdArr", JSON.stringify(obj));
+      }
+
+
+      function resetForm(){
+        $("#barcode").val("");
+        $("#name").val("");
+        $("#desc").val("");
+        $("#quantity").val("");
+        $("#price").val("");
+      }
+
+     function addReading(){
+      cordova.plugins.barcodeScanner.scan(
+            function (result) {
+              $("#barcode").val(result.text);
+          }, 
+          function (error) {
+              alert("Scanning failed: " + error);
+          }
+        );
+    }
+
+    function refresh(){
+      if(navigator.onLine){
+        syncProducts();
+        syncPrices();
+        displaySalesOnline();
+        displayInventoryOnline();
+        
+      }else{
+        displayInventoryOffline();
+        displaySalesOffline();
+        Materialize.toast('No internet Connection', 2000);
+      }
+      
+    }
+
+    $(function(){
+         $("#scan").click(function(){
+           //addReading();
+           alert();
+         });
+    });
+
+    $(function(){
+         $("#add_button").click(function(){
+           addProduct();
+         });
+    });
+
+    // $(function(){
+    //      $("#edit_btn").click(function(){
+    //        setPrice();
+    //      });
+    // });
+
+    $(function(){
+         $("#cancel_edit").click(function(){
+         $("#modal1").closeModal();
+         });
+    });
+
+    $(function(){
+         $("#inv").click(function(){
+          displayInventory2();
+         });
+    });
+
+    $(function(){
+         $("#sale").click(function(){
+          displaySalesOnline();
+         });
+    });
+     </script>
+
+    <!-- Navigation Menu -->
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo"><i class="fa fa-opencart">&#032;k<span id="uu">uu</span>Za</a></i>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="fa fa-bars"></i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#"><i class="fa fa-search"></i></a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li>
+          </li>
+          <li><a href="#"><i class="fa fa-search"></i></a></li>
+      </ul>
+      </div>
+    </nav>
+
+    <div class="fixed-action-btn" style="top: 45px; right: 24px;">
+      <button class="btn-floating btn-large grey lighten-1" onclick="refresh()">
+        <i class="large fa fa-refresh"></i>
+      </button>
+    </div>
+
+    <div id="test"></div>
+
+
+      <div style="margin-top:10px" class="">
+            <div class="row">
+                
+                <div class="col s12">
+                  <ul class="tabs">
+                    <li class="tab col s3"><a class="active" id="inv" href="#inventory">Inventory</a></li>
+                    <li class="tab col s3"><a id="sale" href="#sales">Sales</a></li>
+                    <li class="tab col s3"><a id="products" href="#add_product">Add Product</a></li>
+                  </ul>
+                </div>
+                
+                <div id="inventory" class="col s12">
+                    
+                </div>
+
+                  <!-- Modal Structure -->
+                  <div id="modal1" class="modal bottom-sheet">
+                    <div class="modal-content">
+                      <h4>Set Price</h4>
+                      <div id="edit_form"></div>
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button id="edit_btn" class=" modal-action modal-close waves-effect waves-red btn-flat" onclick="setPrice()"><i class="fa fa-check-circle">&#032;SAVE</i></button>
+
+                      <button id="cancel_edit" class=" modal-action modal-close waves-effect waves-red btn-flat" ><i class="fa fa-times">&#032;CANCEL</i></button>
+
+                      </div>
+                  </div>
+                
+                <div id="sales" class="col s12">
+                </div>
+                
+                <div id="add_product" class="col s12">
+                  <!-- Add Product Form-->
+                    <div class="row">
+                      <form class="col s12">
+
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <input id="name" type="text" class="validate">
+                            <label for="name">Product Name</label>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <input id="desc" type="text" class="validate">
+                            <label for="description">Product Description</label>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <input id="quantity" type="number" class="validate">
+                            <label for="qty">Quantity</label>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="input-field col s12">
+                            <input id="price" type="number" class="validate">
+                            <label for="price">Price</label>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="input-field col s8">
+                            <input id="barcode" type="text" class="validate">
+                          </div>
+                          <button class="btn-large waves-effect waves-light col s4" type="button" name="action" id="scan">
+                            <i class="fa fa-camera" >&#032;SCAN</i>
+                          </button>
+                        </div>
+
+                          <button class="btn-large waves-effect waves-light col s12" type="button" name="action" id="add_button">
+                            <i class="fa fa-check-square">&#032; SAVE</i>
+                          </button>
+
+                      </form>
+                    </div>
+                </div>
+              </div>
+      </div>
+</body>
+</html>

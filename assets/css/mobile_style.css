@@ -1,0 +1,115 @@
+
+.waves-effect.waves-reddish .waves-ripple {
+     /* The alpha value allows the text and background color
+     of the button to still show through. */
+      background-color: rgba(255, 105, 105, 0.45);
+ }
+
+.nav-wrapper {
+	/*background: #f50057;*/
+}
+
+.nav-wrapper .brand-logo {
+	font-size: 30px;
+}
+
+#uu {
+	color: #483e52;
+}
+
+nav{
+	height: 100px;
+	padding: 10px;
+	background: #ff1744;
+}
+
+#inv {
+	margin-bottom: 10px;
+	color: #ff1744;
+}
+
+#sales{
+	margin-top: 10px;
+
+}
+
+.tab{
+	border-bottom: 2px solid #d11439;
+}
+
+#scan, #get_product{
+	background: #282828;
+}
+
+input:focus {
+	color: #282828;
+}
+
+#disabled{
+	color: #ff3333;
+	font-size: 25px;
+	background: #f8f8f8;
+	padding: 5px;
+}
+
+.total{
+	font-size: 20px;
+}
+
+label[for="disabled"] {
+	font-size: 20px;
+	color: #282828;
+}
+
+
+.input-field input[type=text]:focus + label , .input-field input[type=tel]:focus + label {
+     color: #000;
+ }
+
+.input-field input[type=text]:focus,  .input-field input[type=tel]:focus{
+ border-bottom: 1px solid #000;
+ box-shadow: 0 1px 0 0 #000;
+ font-size: 15px;
+}
+
+#save{
+	background: #282828;
+}
+
+#save:hover{
+	color: #e8f5e9;
+}
+
+#clear{
+	background: #ff1744;
+}
+
+#checkout {
+	margin-top: 5px;
+}
+
+input[name=qty]{
+	border: 1px solid #f8f8f8;
+	color: #000;
+	background: #eeeeee;
+}
+
+input[name='qty']:focus{
+	border: 1px solid #f8f8f;
+	color: ff1744;
+	background: f8f8f;
+}
+
+li.collection-item{
+	border: none;
+}
+
+p[name="cost"] {
+	color: #ff1744;
+}
+
+img{
+	width: auto;
+}
+
+
