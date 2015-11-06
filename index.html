@@ -17,6 +17,8 @@
      <script src="cordova.js"></script>
      
      <script type="text/javascript">
+
+      var isOnline = "";
       // Function to send ajax request
        function sendRequest(u){
          // Send request to server
@@ -29,9 +31,11 @@
        }
 
        document.addEventListener("deviceready", onDeviceReady, false);
-       // document.addEventListener("offline", function(){ navigator.notification.alert("No connection found") }, false);
+
 
        function onDeviceReady(){
+        document.addEventListener("offline", toggle, false);
+        document.addEventListener("online", toggle, false);
         $(".button-collapse").sideNav();
          //checkOnline();
          displayInventoryOnline();
@@ -45,6 +49,17 @@
          });
          alert(navigator.onLine);
        }
+
+       function toggle(e){
+         console.log("Called",e.type);
+         if(e.type == "offline"){
+          alert("no internet connection");
+         }else if(e.type == "online"){
+          alert("internet connection ");
+         }
+       }
+
+
 
        // $(document).ready(function()
        // {
