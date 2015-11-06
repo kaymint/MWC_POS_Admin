@@ -28,8 +28,9 @@
          return result; //return object
        }
 
-       $(document).ready(function()
-       {
+       document.addEventListener("deviceready", onDeviceReady, false);
+
+       function onDeviceReady(){
         $(".button-collapse").sideNav();
          //checkOnline();
          displayInventoryOnline();
@@ -40,7 +41,21 @@
           out_duration: 200, // Transition out duration
           //complete: function() { setPrice(); }
          });
-       });
+       }
+
+       // $(document).ready(function()
+       // {
+       //  $(".button-collapse").sideNav();
+       //   //checkOnline();
+       //   displayInventoryOnline();
+       //   $('.modal-trigger').leanModal({
+       //    dismissible: true, // Modal can be dismissed by clicking outside of the modal
+       //    opacity: .3, // Opacity of modal background
+       //    in_duration: 200, // Transition in duration
+       //    out_duration: 200, // Transition out duration
+       //    //complete: function() { setPrice(); }
+       //   });
+       // });
 
        // function checkOnline(){
        //  if(navigator.onLine){
@@ -338,11 +353,15 @@
          });
     });
 
-    // $(function(){
-    //      $("#edit_btn").click(function(){
-    //        setPrice();
-    //      });
-    // });
+     // $(function(){
+     //      $("#edit_btn").click(function(){
+     //        setPrice();
+     //      });
+     // });
+
+    $("#edit_btn").on("touchend", function(){
+      setPrice();
+    });
 
     $(function(){
          $("#cancel_edit").click(function(){
@@ -352,7 +371,7 @@
 
     $(function(){
          $("#inv").click(function(){
-          displayInventory2();
+          displayInventoryOnline();
          });
     });
 
@@ -411,7 +430,7 @@
                     </div>
                     <div class="modal-footer">
                       
-                      <button id="edit_btn" class=" modal-action modal-close waves-effect waves-red btn-flat" onclick="setPrice()"><i class="fa fa-check-circle">&#032;SAVE</i></button>
+                      <button id="edit_btn" class=" modal-action modal-close waves-effect waves-red btn-flat" ><i class="fa fa-check-circle">&#032;SAVE</i></button>
 
                       <button id="cancel_edit" class=" modal-action modal-close waves-effect waves-red btn-flat" ><i class="fa fa-times">&#032;CANCEL</i></button>
 
