@@ -133,7 +133,7 @@
           inventorytable += '<li class="collection-item avatar" >';
          //inventorytable += "<tr id="+obj.inventory[index].product_id+">";
          inventorytable += '<i class="fa fa-gift circle"></i>';
-         inventorytable += "<div class='title' onclick='alert()'>"+obj.inventory[index].product_name+"</div>";
+         inventorytable += "<div class='title' onclick='testModal("+obj.inventory[index].product_id+")'>"+obj.inventory[index].product_name+"</div>";
          inventorytable += "<input type=hidden name=id value ="+obj.inventory[index].product_id+" > ";
          inventorytable += "<div name='price'>GHS <span>"+obj.inventory[index].unit_price+"</span></div>";
          inventorytable += "<div name='quantity'>Qty: <span>"+obj.inventory[index].quantity+"</span></div>";
