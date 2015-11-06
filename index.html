@@ -50,10 +50,13 @@
 
        function toggleoff(){
           Materialize.toast('Offline', 2000);
+          isOnline = false;
        }
 
        function toggleon(){
          Materialize.toast('Online', 2000);
+         isOnline = true;
+         refresh();
        }
 
 
@@ -198,7 +201,7 @@
       function setPrice(){
         var price = $('#obj_price').val();
         var id = $('#obj_id').val();
-        if(navigator.onLine){
+        if(isOnline == true){
           setPriceOnline(id, price);
         }else{
           setPriceOffline(id, price);
@@ -238,7 +241,7 @@
         for(i = 0; i < obj.length; i++){
           id = obj[i].id;
           price = obj[i].price;
-          if(navigator.onLine){
+          if(isOnline == true){
             setPriceOnline(id, price);
             obj.shift();
           }else{
@@ -259,8 +262,7 @@
           var qty = $("#quantity").val();
           var price = $("#price").val();
 
-          alert(navigator.onLine);
-          if(navigator.onLine){
+          if(isOnline == true){
             addProductOnline(id, name, desc, qty, price)
           }else{
             addProductOffline(id, name, desc, qty, price)
@@ -271,7 +273,7 @@
       function addProductOnline(id, name, desc, qty, price){
         
         var theUrl = "http://cs.ashesi.edu.gh/~csashesi/class2016/kenneth-mensah/pos/controllers/products-controller.php?cmd=2&id="+id+"&name="+name+"&desc="+desc+"&qty="+qty+"&price="+price;
-        if(navigator.onLine){
+        if(isOnline == true){
 
           var obj=sendRequest(theUrl);    //send request to the above url
 
@@ -314,7 +316,7 @@
           qty = obj[i].qty;
           name = obj[i].name;
 
-          if(navigator.onLine){
+          if(isOnline == true){
             addProductOnline(id, name, desc, qty, price);
             obj.shift();
           }else{
@@ -349,8 +351,8 @@
     }
 
     function refresh(){
-      alert(navigator.onLine);
-      if(navigator.onLine){
+      alert(isOnline);
+      if(isOnline == true){
         syncProducts();
         syncPrices();
         displaySalesOnline();
