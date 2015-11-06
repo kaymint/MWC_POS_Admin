@@ -18,6 +18,7 @@
 		<gap:splash src="res/splash.png"/>
 		<gap:plugin name="cordova-plugin-whitelist" source="npm"/>
 		<gap:plugin name="net.roughshod.plugins.barcodescanner" version="3.0.0" />
+		<gap:plugin name="cordova-plugin-network-information"/>
 		<allow-navigation href="*" />
 		<allow-intent href="*" />
 		<access origin="*" />
