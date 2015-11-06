@@ -133,11 +133,11 @@
           inventorytable += '<li class="collection-item avatar" >';
          //inventorytable += "<tr id="+obj.inventory[index].product_id+">";
          inventorytable += '<i class="fa fa-gift circle"></i>';
-         inventorytable += "<div class='title' onclick='testModal("+obj.inventory[index].product_id+")'>"+obj.inventory[index].product_name+"</div>";
+         inventorytable += "<div class='title modal-trigger' data-target='modal1' onclick='testModal("+obj.inventory[index].product_id+")'>"+obj.inventory[index].product_name+"</div>";
          inventorytable += "<input type=hidden name=id value ="+obj.inventory[index].product_id+" > ";
          inventorytable += "<div name='price'>GHS <span>"+obj.inventory[index].unit_price+"</span></div>";
          inventorytable += "<div name='quantity'>Qty: <span>"+obj.inventory[index].quantity+"</span></div>";
-         inventorytable += '<div class="secondary-content modal-trigger col s2" data-target="modal1"';
+         inventorytable += '<div class="secondary-content modal-trigger col s2" ';
          //inventorytable += 'onclick="testModal('+obj.inventory[index].product_id+')">';
          inventorytable += 'onclick="alert()">';
          inventorytable +='<i class="fa fa-pencil circle black btn-floating"></i></div>';
@@ -169,7 +169,6 @@
         //alert(id);
         alert(id);
         getProduct(id);
-        alert(id);
         $('.modal-trigger').leanModal({
           dismissible: true, // Modal can be dismissed by clicking outside of the modal
           opacity: .3, // Opacity of modal background
