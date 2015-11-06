@@ -119,7 +119,8 @@
          inventorytable += "<input type=hidden name=id value ="+obj.inventory[index].product_id+" > ";
          inventorytable += "<div name='price'>GHS <span>"+obj.inventory[index].unit_price+"</span></div>";
          inventorytable += "<div name='quantity'>Qty: <span>"+obj.inventory[index].quantity+"</span></div>";
-         inventorytable += '<button class="secondary-content modal-trigger col s2" data-target="modal1" onclick=testModal('+obj.inventory[index].product_id+')>';
+         inventorytable += '<button class="secondary-content modal-trigger col s2" data-target="modal1"';
+         inventorytable += 'onclick="testModal('+obj.inventory[index].product_id+')">';
          inventorytable +='<i class="fa fa-pencil circle black btn-floating"></i></button>';
          inventorytable += "</li>";
        }
