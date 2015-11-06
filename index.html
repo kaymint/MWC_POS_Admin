@@ -35,6 +35,7 @@
         $(".button-collapse").sideNav();
          //checkOnline();
          displayInventoryOnline();
+         displaySalesOnline();
          $('.modal-trigger').leanModal({
           dismissible: true, // Modal can be dismissed by clicking outside of the modal
           opacity: .3, // Opacity of modal background
@@ -374,13 +375,13 @@
 
     $(function(){
          $("#inv").click(function(){
-          displayInventoryOnline();
+          displayInventoryOffline();
          });
     });
 
     $(function(){
          $("#sale").click(function(){
-          displaySalesOnline();
+          displaySalesOffline();
          });
     });
      </script>
