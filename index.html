@@ -130,10 +130,10 @@
         var inventorytable = "";
         inventorytable += '<ul class="collection">';
         for(var index in obj.inventory){
-          inventorytable += '<li class="collection-item avatar">';
+          inventorytable += '<li class="collection-item avatar" onclick="alert(pressed)">';
          //inventorytable += "<tr id="+obj.inventory[index].product_id+">";
          inventorytable += '<i class="fa fa-gift circle"></i>';
-         inventorytable += "<div class='title'>"+obj.inventory[index].product_name+"</div>";
+         inventorytable += "<div class='title' >"+obj.inventory[index].product_name+"</div>";
          inventorytable += "<input type=hidden name=id value ="+obj.inventory[index].product_id+" > ";
          inventorytable += "<div name='price'>GHS <span>"+obj.inventory[index].unit_price+"</span></div>";
          inventorytable += "<div name='quantity'>Qty: <span>"+obj.inventory[index].quantity+"</span></div>";
@@ -351,7 +351,6 @@
     }
 
     function refresh(){
-      alert(isOnline);
       if(isOnline == true){
         syncProducts();
         syncPrices();
