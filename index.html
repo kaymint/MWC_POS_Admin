@@ -30,14 +30,40 @@
          return result; //return object
        }
 
-       document.addEventListener("deviceready", onDeviceReady, false);
+       // document.addEventListener("deviceready", onDeviceReady, false);
 
 
-       function onDeviceReady(){
-        document.addEventListener("offline", toggleoff, false);
-        document.addEventListener("online", toggleon, false);
+       // function onDeviceReady(){
+        
+       //  $(".button-collapse").sideNav();
+       //   //checkOnline();
+       //   displayInventoryOnline();
+       //   displaySalesOnline();
+       //   $('.modal-trigger').leanModal({
+       //    dismissible: true, // Modal can be dismissed by clicking outside of the modal
+       //    opacity: .3, // Opacity of modal background
+       //    in_duration: 200, // Transition in duration
+       //    out_duration: 200, // Transition out duration
+       //    //complete: function() { setPrice(); }
+       //   });
+       // }
+
+       function toggleoff(){
+          Materialize.toast('Offline', 2000);
+       }
+
+       function toggleon(){
+         Materialize.toast('Online', 2000);
+       }
+
+
+
+       $(document).ready(function()
+       {
         $(".button-collapse").sideNav();
          //checkOnline();
+          document.addEventListener("offline", toggleoff, false);
+          document.addEventListener("online", toggleon, false);
          displayInventoryOnline();
          displaySalesOnline();
          $('.modal-trigger').leanModal({
@@ -47,32 +73,7 @@
           out_duration: 200, // Transition out duration
           //complete: function() { setPrice(); }
          });
-         alert(navigator.onLine);
-       }
-
-       function toggleoff(){
-          Materialize.toast('Offline', 4000);
-       }
-
-       function toggleon(){
-         Materialize.toast('Online', 4000);
-       }
-
-
-
-       // $(document).ready(function()
-       // {
-       //  $(".button-collapse").sideNav();
-       //   //checkOnline();
-       //   displayInventoryOnline();
-       //   $('.modal-trigger').leanModal({
-       //    dismissible: true, // Modal can be dismissed by clicking outside of the modal
-       //    opacity: .3, // Opacity of modal background
-       //    in_duration: 200, // Transition in duration
-       //    out_duration: 200, // Transition out duration
-       //    //complete: function() { setPrice(); }
-       //   });
-       // });
+       });
 
        // function checkOnline(){
        //  if(navigator.onLine){
