@@ -34,8 +34,8 @@
 
 
        function onDeviceReady(){
-        document.addEventListener("offline", toggle, false);
-        document.addEventListener("online", toggle, false);
+        document.addEventListener("offline", toggleoff, false);
+        document.addEventListener("online", toggleon, false);
         $(".button-collapse").sideNav();
          //checkOnline();
          displayInventoryOnline();
@@ -50,13 +50,12 @@
          alert(navigator.onLine);
        }
 
-       function toggle(e){
-         console.log("Called",e.type);
-         if(e.type == "offline"){
-          alert("no internet connection");
-         }else if(e.type == "online"){
-          alert("internet connection ");
-         }
+       function toggleoff(){
+          Materialize.toast('Offline', 4000);
+       }
+
+       function toggleon(){
+         Materialize.toast('Online', 4000);
        }
 
 
